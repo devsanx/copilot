@@ -20,7 +20,7 @@ client.on("interactionCreate", (interaction) => {
     const channelname = interaction.options.getString("channelname");
     const channelvisibility = interaction.options.getString("channelvisibility");
     const channelcategory = interaction.options.getString("channelcategory");
-    const channel = client.channels.cache.get("1131157987285803048");
+    const channel = client.channels.cache.get("1124711101452521623");
     const embed = new EmbedBuilder()
       .setTitle("The request has been sent for review!")
       .setColor("#ff6b35")
@@ -118,9 +118,9 @@ client.on('interactionCreate', async (interaction) => {
     let parentID;
     const category = categories.get(user.id); // Get the category from the Map
     if (category === "prjs") {
-      parentID = "1137107855766462665"; // replace with the ID of the 'prjs' category
+      parentID = "720358859939512370"; // replace with the ID of the 'prjs' category
     } else if (category === "apps") {
-      parentID = "1137107834178388071"; // replace with the ID of the 'other' category
+      parentID = "932070279042187294"; // replace with the ID of the 'other' category
     }
     const channelName = channelNames.get(user.id); // Get the channel name from the Map
     const isPrivate = channelVisibilityMap.get(user.id) === "private"; // Get the visibility from the Map
@@ -145,11 +145,23 @@ client.on('interactionCreate', async (interaction) => {
           },
           {
             id: '1138620674383024199',
-            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ManageChannels, PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ManageRoles],
+            allow: 
+            [
+              PermissionFlagsBits.ViewChannel, 
+              PermissionFlagsBits.ManageChannels, 
+              PermissionFlagsBits.ManageMessages, 
+              PermissionFlagsBits.ManageRoles
+            ],
           },
           {
             id: interaction.user.id,
-            allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ManageChannels, PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ManageRoles],
+            allow: 
+            [
+              PermissionFlagsBits.ViewChannel, 
+              PermissionFlagsBits.ManageChannels, 
+              PermissionFlagsBits.ManageMessages, 
+              PermissionFlagsBits.ManageRoles
+            ],
           }
         ] : [],
       });
