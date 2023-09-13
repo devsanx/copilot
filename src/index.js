@@ -187,7 +187,7 @@ client.on('interactionCreate', async (interaction) => {
 
 
 client.on("guildMemberAdd", (c) => {
-  const channel = client.channels.cache.get("1131157987285803048");
+  const channel = client.channels.cache.get("714584060172959784");
   channel.send(`Good day, ${c.user}! Welcome to the server; I hope you enjoy your stay! `)
 })
 
