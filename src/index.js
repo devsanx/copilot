@@ -20,12 +20,13 @@ client.on("interactionCreate", (interaction) => {
     const channelname = interaction.options.getString("channelname");
     const channelvisibility = interaction.options.getString("channelvisibility");
     const channelcategory = interaction.options.getString("channelcategory");
+    const channeltype = interaction.options.getString("channeltype");
     const channel = client.channels.cache.get("1124711101452521623");
     const embed = new EmbedBuilder()
       .setTitle("The request has been sent for review!")
       .setColor("#ff6b35")
       .addFields({
-        name: "Channel Name",
+        name: "Name",
         value: channelname,
         inline: true,
       })
@@ -37,6 +38,11 @@ client.on("interactionCreate", (interaction) => {
       .addFields({
         name: "Category",
         value: channelcategory,
+        inline: true,
+      })
+      .addFields({
+        name: "Type",
+        value: channeltype,
         inline: true,
       });
 
@@ -49,7 +55,7 @@ client.on("interactionCreate", (interaction) => {
       )
       .setColor("#ff6b35")
       .addFields({
-        name: "Channel Name",
+        name: "Name",
         value: channelname,
         inline: true,
       })
@@ -61,6 +67,11 @@ client.on("interactionCreate", (interaction) => {
       .addFields({
         name: "Category",
         value: channelcategory,
+        inline: true,
+      })
+      .addFields({
+        name: "Type",
+        value: channeltype,
         inline: true,
       });
       
@@ -185,10 +196,9 @@ client.on('interactionCreate', async (interaction) => {
   }
 });
 
-
 client.on("guildMemberAdd", (c) => {
   const channel = client.channels.cache.get("714584060172959784");
   channel.send(`Good day, ${c.user}! Welcome to the server; I hope you enjoy your stay! `)
-})
+});
 
 client.login(process.env.TOKEN);
