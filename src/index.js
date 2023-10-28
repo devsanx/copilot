@@ -376,8 +376,8 @@ client.on(Events.MessageDelete, async (messageDelete) => {
   const messageChannel = `https://discord.com/channels/${messageDelete.guild.id}/${messageDelete.channel.id}`;
   const embedMsgDelete = new EmbedBuilder()
     .setAuthor({name: userDel.tag, iconURL: userDel.avatarURL(),})
-    .setDescription(`**Message sent by ${userDel} deleted in ${messageChannel}**`)
-    .addFields({name: "Deleted Message", value: `${messageDelete.content}`})
+    .setDescription(`**Message sent by ${userDel} deleted in ${messageChannel}**
+    ${messageDelete.content}`)
     .setFooter({text: `User ID: ${userDel.id} | Msg ID: ${msgDelID} | Today at ${date.toLocaleTimeString([], {hour12: true,})}`,})
     .setColor("#da373c");
   logsChannel.send({ embeds: [embedMsgDelete] });
