@@ -23,7 +23,6 @@ let requestUser = new Map();
 client.on(Events.InteractionCreate, (interaction) => {
   if (interaction.commandName === "requestchannel") {
     let intAuthor = interaction.member.id;
-    console.log(intAuthor);
     requestUser.set("IntMember", intAuthor);
   }
 });
@@ -323,11 +322,16 @@ client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
   const userUpdate = await client.users.fetch(newMember.user.id);
   const date = new Date();
 
-  const oldRoles = oldMember.roles.cache.map(role => role.name);
-  const newRoles = newMember.roles.cache.map(role => role.name);
+  let oldRoles = oldMember.roles.cache.filter((role) => role.name !== "@everyone");
+  let newRoles = newMember.roles.cache.filter((role) => role.name !== "@everyone");
 
-  const addedRoles = newRoles.filter(role => !oldRoles.includes(role));
-  const removedRoles = oldRoles.filter(role => !newRoles.includes(role));
+  const addedRoles = newRoles
+    .filter((role) => !oldRoles.has(role.id))
+    .map((role) => `<@&${role.id}>`);
+
+  const removedRoles = oldRoles
+    .filter((role) => !newRoles.has(role.id))
+    .map((role) => `<@&${role.id}>`);
 
   const embedUpRoles = new EmbedBuilder()
     .setAuthor({ name: `${userUpdate.tag}`, iconURL: userUpdate.avatarURL() })
@@ -337,14 +341,13 @@ client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
     if (addedRoles.length > 0) {
       embedUpRoles.addFields({
         name: "Added roles",
-        value: `${addedRoles.join(', ')}`
+        value: `${addedRoles.join(", ")}`
       });
     }
-    
     if (removedRoles.length > 0) {
       embedUpRoles.addFields({
         name: "Removed roles",
-        value: `${removedRoles.join(', ')}`
+        value: `${removedRoles.join(", ")}`
       });
     }
   logsChannel.send({ embeds: [embedUpRoles] })
@@ -365,7 +368,11 @@ client.on(Events.MessageUpdate, async (oldMessage, newMessage) => {
     .addFields({ name: "After", value: newMessage.content || '(no content)', })
     .setFooter({text: `User ID: ${userEdit.id} | Today at ${date.toLocaleTimeString([], {hour12: true,})}`,})
     .setColor("#5865f2");
-  logsChannel.send({ embeds: [embedMsgEdit] });
+  if (oldMessage.author.bot) {
+    return;
+  } else {
+    logsChannel.send({ embeds: [embedMsgEdit] });
+  }
 });
 
 client.on(Events.MessageDelete, async (messageDelete) => { 
@@ -377,7 +384,7 @@ client.on(Events.MessageDelete, async (messageDelete) => {
   const embedMsgDelete = new EmbedBuilder()
     .setAuthor({name: userDel.tag, iconURL: userDel.avatarURL(),})
     .setDescription(`**Message sent by ${userDel} deleted in ${messageChannel}**
-    ${messageDelete.content}`)
+    ${messageDelete.content} ${messageDelete.attachments.url}`)
     .setFooter({text: `User ID: ${userDel.id} | Msg ID: ${msgDelID} | Today at ${date.toLocaleTimeString([], {hour12: true,})}`,})
     .setColor("#da373c");
   logsChannel.send({ embeds: [embedMsgDelete] });
@@ -421,110 +428,6 @@ client.on("guildMemberAdd", (member) => {
 });
 
 // ----------------------- Utility Commands --------------------- //
-//Utility commands: Ban, Softban, Kick, Timeout, Purge, Whois, 
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (interaction.commandName === "ban") {
-    const banUser = interaction.guild.members.resolve(interaction.options.getUser("user"));
-    const banReason = interaction.options.getString("reason") || "No reason provided";
-    const roleIDs = ['911879842906144778', '963126197921910795'];
-
-    if (roleIDs.some(roleID => interaction.member.roles.cache.has(roleID)) || interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-      await banUser.ban(banReason)
-      interaction.reply({
-        content: `The user has been banned successfully`,
-        ephemeral: true,
-      });
-    } else {
-      interaction.reply({
-        content: 'You do not have permission to use this command',
-        ephemeral: true,
-      });
-      return;
-    }
-  }
-})
-
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (interaction.commandName === "softban") {
-    const fetchedMessages = await interaction.channel.messages.fetch();
-    const softBanUser = interaction.guild.members.resolve(interaction.options.getUser("user"));
-    const softBanReason = interaction.options.getString("reason") || "No reason provided";
-    const softBanUserMsgs = fetchedMessages.filter(message => message.author.id === softBanUser.id);
-    const roleIDs = ['911879842906144778', '963126197921910795'];
-
-    if (roleIDs.some(roleID => interaction.member.roles.cache.has(roleID)) || interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-      await softBanUser.kick(softBanReason)
-      await interaction.channel.bulkDelete(softBanUserMsgs)
-      interaction.reply({
-        content: `The user has been soft-banned successfully`,
-        ephemeral: true,
-      });
-    } else {
-      interaction.reply({
-        content: 'You do not have permission to use this command',
-        ephemeral: true,
-      });
-      return;
-    }
-  }
-})
-
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (interaction.commandName === "kick") {
-    const kickUser = interaction.guild.members.resolve(interaction.options.getUser("user"));
-    const kickReason = interaction.options.getString("reason") || "No reason provided";
-    const roleIDs = ['911879842906144778', '963126197921910795'];
-
-    if (roleIDs.some(roleID => interaction.member.roles.cache.has(roleID)) || interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-      await kickUser.kick(kickReason)
-      interaction.reply({
-        content: `The user has been kicked successfully`,
-        ephemeral: true,
-      });
-    } else {
-      interaction.reply({
-        content: 'You do not have permission to use this command',
-        ephemeral: true,
-      });
-      return;
-    }
-  }
-})
-
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (interaction.commandName === "timeout") {
-    const timeoutUser = interaction.guild.members.resolve(interaction.options.getUser("user"));
-    const timeoutReason = interaction.options.getString("reason") || "No reason provided";
-    const timeoutDuration = interaction.options.getString("duration");
-    const msTimeout = ms(timeoutDuration); // Convert duration from minutes to milliseconds
-    const roleIDs = ['911879842906144778', '963126197921910795'];
-
-    // Check if the member has one of the roles or is an administrator
-    if (roleIDs.some(roleID => interaction.member.roles.cache.has(roleID)) || interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-      await timeoutUser.timeout(msTimeout, timeoutReason)
-      interaction.reply({
-        content: `The user has been timed out for ${interaction.options.getString("duration")} minutes.`,
-        ephemeral: true,
-      });
-    } else {
-      interaction.reply({
-        content: 'You do not have permission to use this command',
-        ephemeral: true,
-      });
-      return;
-    }
-    if (isNaN(msTimeout)) {
-      console.log(msTimeout)
-      interaction.reply({
-        content: 'Please provide a valid number for the duration',
-        ephemeral: true,
-      });
-      return;
-    }
-
-  }
-});
-
 client.on(Events.InteractionCreate, async (interaction) => {
   if (interaction.commandName === "purge") {
     const purgeAmount = interaction.options.getNumber("amount");
