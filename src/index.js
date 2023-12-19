@@ -1,6 +1,6 @@
 require("dotenv").config();
 const fs = require("fs");
-const ms = require("ms")
+const ms = require("ms");
 const { Client, IntentsBitField, PermissionFlagsBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, Events } = require("discord.js");
 const client = new Client({
   intents: [
@@ -203,7 +203,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 let count;
 let lastUserId;
 try {
-  const data = JSON.parse(fs.readFileSync("data.json"));
+  const data = JSON.parse(fs.readFileSync("counting.json"));
   count = data.count;
   lastUserId = data.lastUserId;
 } catch {
@@ -231,7 +231,7 @@ client.on(Events.MessageCreate, async (message) => {
 
     count++;
     lastUserId = message.author.id;
-    fs.writeFileSync("data.json", JSON.stringify({ count, lastUserId }));
+    fs.writeFileSync("counting.json", JSON.stringify({ count, lastUserId }));
     message.react("✔️");
   }
 });
