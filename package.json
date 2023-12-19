@@ -9,11 +9,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.12.1",
+    "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "fs": "^0.0.1-security",
     "ms": "^2.1.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AstroX809/Assistant-Bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AstroX809/Assistant-Bot/issues"
+  },
+  "homepage": "https://github.com/AstroX809/Assistant-Bot#readme",
   "description": ""
 }
