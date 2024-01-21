@@ -81,7 +81,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     const memberRoles = interaction.member?.roles as GuildMemberRoleManager;
     const memberPermissions = interaction.member?.permissions;
     const fetchedMessages = await channel?.messages?.fetch({ limit: purgeAmount || 1 }) as unknown as Message[];
-
+    // @ts-ignore
     if ((memberRoles && roleIDs.some(roleID => memberRoles.cache.has(roleID))) || memberPermissions.has(PermissionFlagsBits.Administrator)) {
       if (!purgeAmount || purgeAmount < 1 || purgeAmount > 100) {
         interaction.reply({
@@ -123,6 +123,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
       const whoisUser = guild?.members?.resolve(options.getUser("user", true));
       const date = new Date();
       const roles = whoisUser?.roles?.cache?.filter(role => role.name !== '@everyone').map(role => `<@&${role.id}>`).join(', ');
+      // @ts-ignore
       const roleCount = whoisUser?.roles?.cache?.size - 1;
       const embedWhois = new EmbedBuilder()
         .setAuthor({ name: `${whoisUser?.user?.tag}`, iconURL: `${whoisUser?.user?.avatarURL()}` })
