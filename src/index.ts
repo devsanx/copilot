@@ -43,6 +43,7 @@ client.on(Events.MessageCreate, async (message) => {
   if (message.channelId === "754969003176362025") {
     if (isNaN(parseInt(message.content.charAt(0)))) return;
     if (parseInt(message.content) !== count + 1) {
+      count = 0;
       await message.react("❌");
       await message.channel.send(
         `<@${message.author.id}> **Wrong number!** The next number is ${count + 1}`
