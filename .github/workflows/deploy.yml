@@ -1,0 +1,42 @@
+name: Deploy Copilot Bot to Raspberry Pi 5
+
+on: # Trigger on a push to the "production" branch
+  push:
+    branches:
+      - production
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Register Slash Commands # Run slashCommands.cjs to register commands on Discord
+        run: npm run register
+        
+      - name: Build bot
+        run: npm run build  
+
+      - name: Stop old bot instance
+        run: sudo systemctl stop copilot-bot || true
+
+      - name: Deploy bot
+        run: sudo cp -r dist/* /home/firesteel/Bots/Copilot/
+
+      - name: Create environment variables for Token and Guild ID
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          GUILD_ID: ${{ vars.GUILD_ID }}
+        run: | # Create environment file for the bot to access discord token and guild ID
+          echo "TOKEN=${TOKEN}" | sudo tee /home/firesteel/Bots/Copilot/.env > /dev/null
+          echo "GUILD_ID=${GUILD_ID}" | sudo tee -a /home/firesteel/Bots/Copilot/.env > /dev/null
+          
+      - name: Start Service
+        run: sudo systemctl start copilot-bot
+
+      - name: Enable Service to start on boot
+        run: sudo systemctl enable copilot-bot
