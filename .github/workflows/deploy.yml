@@ -15,8 +15,8 @@ jobs:
       - name: Install dependencies
         run: npm install
         
-      - name: Register Slash Commands # Run slashCommands.cjs to register commands on Discord
-        run: npm run register
+     # - name: Register Slash Commands # Run slashCommands.cjs to register commands on Discord
+     #   run: npm run register
         
       - name: Build bot
         run: npm run build  
