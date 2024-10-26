@@ -1,6 +1,7 @@
 name: Deploy Copilot Bot to Raspberry Pi 5
 
 on: # Trigger on a push to the "production" branch
+  workflow_dispatch:
   push:
     branches:
       - production
