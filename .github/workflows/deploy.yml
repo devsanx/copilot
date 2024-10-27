@@ -1,10 +1,7 @@
 name: Deploy Copilot Bot to Raspberry Pi 5
 
-on: # Trigger on a push to the "production" branch
+on:
   workflow_dispatch:
-  push:
-    branches:
-      - production
 
 jobs:
   deploy:
@@ -12,8 +9,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: production
         
       - name: Set up Node
         uses: actions/setup-node@v4
