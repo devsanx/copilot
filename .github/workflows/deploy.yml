@@ -21,7 +21,7 @@ jobs:
 
       - name: Run new Docker container
         run: |
-          docker run -d --copilot-bot \
+          docker run -d --name copilot-bot \
             --restart unless-stopped \
             -e TOKEN=${{ secrets.TOKEN }} \
             -e GUILD_ID=${{ vars.GUILD_ID }} \
