@@ -10,8 +10,8 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Install tsx if it's not included in your package.json
-RUN npm install tsx --save-dev
+# Install typescript
+RUN npm install typescript
 
 # Copy the rest of the application code
 # This is done after installing dependencies to improve performance with Docker cache
