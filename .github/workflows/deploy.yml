@@ -25,5 +25,4 @@ jobs:
             --restart unless-stopped \
             -e TOKEN=${{ secrets.TOKEN }} \
             -e GUILD_ID=${{ vars.GUILD_ID }} \
-            -v /home/firesteel/Bots/Copilot:/app \
             copilot-bot-image:latest
