@@ -1,0 +1,29 @@
+name: Deploy Copilot Bot to Raspberry Pi 5 with Docker
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t copilot-bot-image:latest .
+
+      - name: Stop old Docker container
+        run: |
+          docker stop copilot-bot || true
+          docker rm copilot-bot || true
+
+      - name: Run new Docker container
+        run: |
+          docker run -d --copilot-bot \
+            --restart unless-stopped \
+            -e TOKEN=${{ secrets.TOKEN }} \
+            -e GUILD_ID=${{ vars.GUILD_ID }} \
+            -v /home/firesteel/Bots/Copilot:/app \
+            copilot-bot-image:latest
