@@ -18,7 +18,8 @@ RUN npm install tsx --save-dev
 COPY . .
 
 # Register Slash Commands
-RUN npm run register
+# RUN npm run register
+RUN tsx src/slashCommands.cjs
 
 # Run the bot
-CMD ["tsx", "watch", "src/index.ts"]
+CMD ["npm", "run", "dev"]
