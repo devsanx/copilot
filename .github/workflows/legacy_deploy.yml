@@ -1,4 +1,4 @@
-name: Deploy Copilot Bot to Raspberry Pi 5
+name: Deploy Copilot Bot to Raspberry Pi 5 (deprecated)
 
 on:
   workflow_dispatch:
