@@ -18,7 +18,7 @@ RUN npm install typescript
 COPY . .
 
 # Register Slash Commands
-RUN npm run register
+# RUN npm run register
 
 # Run the bot
 CMD ["npm", "run", "dev"]
