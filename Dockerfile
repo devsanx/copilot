@@ -1,4 +1,4 @@
-# Use the official Node.js20  image as a base
+# Use the official Node.js20 image as a base
 FROM node:20
 
 # Set the working directory in the container to /app
