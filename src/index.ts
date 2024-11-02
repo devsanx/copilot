@@ -158,7 +158,7 @@ client.once('ready', () => {
     client.user.setPresence({
         activities: [
             {
-                name: "Try counting in DevSanx",
+                name: "Try #counting in DevSanx!",
                 type: ActivityType.Custom
             }
         ],
