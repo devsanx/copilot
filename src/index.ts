@@ -153,4 +153,16 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
+client.once('ready', () => {
+    client.user.setPresence({
+        activities: [
+            {
+                name: "Try counting in DevSanx,
+                type: ActivityType.Custom
+            }
+        ],
+        status: 'online'
+    });
+});
+
 client.login(process.env.TOKEN)
