@@ -11,6 +11,7 @@ import {
   EmbedBuilder,
   ChatInputCommandInteraction,
   APIEmbedField,
+  ActivityType,
 } from "discord.js";
 
 const client = new Client({
