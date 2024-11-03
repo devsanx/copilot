@@ -19,10 +19,12 @@ jobs:
           docker stop copilot-bot || true
           docker rm copilot-bot || true
 
+      # Add the saved counting.json file as a volume to persist stored data
       - name: Run new Docker container
         run: |
           docker run -d --name copilot-bot \
             --restart unless-stopped \
+            -v /home/firesteel/Bots/Copilot/counting.json:/app/counting.json \
             -e TOKEN=${{ secrets.TOKEN }} \
             -e GUILD_ID=${{ vars.GUILD_ID }} \
             copilot-bot-image:latest
