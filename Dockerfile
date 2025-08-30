@@ -17,8 +17,9 @@ RUN npm install typescript
 # This is done after installing dependencies to improve performance with Docker cache
 COPY . .
 
-# Register Slash Commands
-CMD ["npm", "run", "register"]
+# Make the startup.sh available
+RUN chmod +x startup.sh
 
-# Run the bot
-CMD ["npm", "run", "dev"]
+# Set the startup.sh as an entrypoint run when container first starts
+# The startup.sh file contains commands to run the bot
+ENTRYPOINT ["./startup.sh"]
